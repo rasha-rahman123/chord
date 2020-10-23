@@ -1,0 +1,29 @@
+@import url('https://rsms.me/inter/inter.css');
+html,
+body {
+   padding: 0;
+   line-height: 1.6;
+   font-size: 18px;
+   font-family: 'Inter', sans-serif;
+   background-image:
+   linear-gradient(160deg, #132312, #231234, #231234, #902812)
+
+}
+
+* {
+   box-sizing: border-box;
+}
+
+a {
+   color: #0070f3;
+   text-decoration: none;
+}
+
+a:hover {
+   text-decoration: underline;
+}
+
+img {
+   max-width: 100%;
+   display: block;
+}
