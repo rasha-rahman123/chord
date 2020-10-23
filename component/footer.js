@@ -51,11 +51,10 @@ export const Footer = ({ transpose, setTranspose }) => {
           choose different orbs and press 'SPACE' to hear them!
         </h3>
       </div>
-      <div
-        style={{ margin: "0 20px 0 0px", lineHeight: "100%", width: "100px" }}
-      >
-        Buy Me Coffee!
-      </div>
+      <div>
+          <span style={{width: 20}}> sick website
+          </span>
+        </div>
     </div>
   );
 };

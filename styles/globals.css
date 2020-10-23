@@ -6,7 +6,8 @@ body {
    font-size: 18px;
    font-family: 'Inter', sans-serif;
    background-image:
-   linear-gradient(160deg, #132312, #231234, #231234, #902812)
+   linear-gradient(0deg, #181D45, #494A8D, #5861a6, #181D45);
+   overflow: hidden;
 
 }
 
