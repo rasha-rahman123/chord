@@ -37,12 +37,14 @@ export const Footer = ({ transpose, setTranspose }) => {
         {" "}
         <h3 style={{ color: "#5FACD7" }}>Chord Finder</h3>
         <span
+            onClick={() => window.location.replace('https://rasha.world')}
           style={{
             color: "#181D45",
             padding: "0 10px",
             borderRadius: 5,
             backgroundColor: "#5FACD7",
             fontSize: "1rem",
+            cursor: 'pointer'
           }}
         >
           developed by Rasha Rahman
