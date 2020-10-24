@@ -1,8 +1,8 @@
 import Head from "next/head";
 
-import { useFrame } from "react-three-fiber";
+import { useFrame, useUpdate } from "react-three-fiber";
 import { useEffect, useRef, useState } from "react";
-export default function Home({ use, setUse, position, tagSound, i,triggerSound, j, k }) {
+const Home =({ use, setUse, position, tagSound, i,triggerSound, j, k, ref, setOn, sounds, on }) => {
   const mesh = useRef();
   const opac = useRef();
 
@@ -10,19 +10,33 @@ export default function Home({ use, setUse, position, tagSound, i,triggerSound, 
   const [hovered, setHover] = useState(false);
   const [active, setActive] = useState(false);
   
+  useEffect(() => {
+    sounds.length < 1 && active && setActive(false)
+  },[sounds])
+
+
 
   let [x, y, z] = [...position];
   
   // Rotate mesh every frame, this is outside of React without overhead
-  useFrame(() => (mesh.current.rotation.x = mesh.current.rotation.y += 0.01));
+  useFrame(() => (reef.current.rotation.x = reef.current.rotation.y += (Math.random() * 10) / 1000));
 
   useFrame(
     () =>
-      mesh.current.position.x < x + 1.5 &&
-      (mesh.current.position.x = mesh.current.position.x += 0.1)
+      reef.current.position.x < x + 1.5 &&
+      (reef.current.position.x = reef.current.position.x += 0.1)
   );
 
 
+const reef = useUpdate((geo) => {
+ 
+  const onIt = setTimeout(() => {
+    setOn && setOn(-4)
+  },10)
+  i === on && geo.__handlers.click() && onIt()
+  on === -2 && active && geo.__handlers.click() && onIt()
+  
+},[setOn, on])
 
   // // Useful reset tools
   // useEffect(() => {
@@ -38,13 +52,14 @@ export default function Home({ use, setUse, position, tagSound, i,triggerSound, 
       key={(Math.ceil(j+2)*(k+3) ) * 2}
       position={[x, y, z]}
 
-      ref={mesh}
+      ref={reef}
       scale={active ? [0.50, 0.50, 0.50] : hovered ? [0.47, 0.47, 0.47] : [0.45, 0.45, 0.45]}
       //
       onClick={(e) =>
         {typeof setActive !== "undefined" &&
-        setActive(!active) && (mesh.current.posiition.y = (y + 1)) 
-        tagSound(i) 
+        setActive(!active)
+        tagSound(i, active) 
+     
         
       }
         // (mesh.current.position.x = x)
@@ -61,3 +76,6 @@ export default function Home({ use, setUse, position, tagSound, i,triggerSound, 
     </mesh>
   );
 }
+
+
+export default Home;

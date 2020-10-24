@@ -1,5 +1,41 @@
-export const Footer = ({ transpose, setTranspose }) => {
-  return (
+import {useState, useEffect, useRef} from 'react'
+import { useFrame } from 'react-three-fiber';
+import { NoteLength } from './noteLength';
+export const Footer = ({ transpose,ref0, ref1, setTranspose }) => {
+  
+    const [msg, setMsg] = useState(
+        `choose different orbs and press 'SPACE' to hear them!`
+      );
+
+      const [pubMsg, setPub] = useState()
+    
+      var d = new Date()
+
+
+
+     useEffect(() => {
+         
+    //    function ay() {
+    //     setTimeout(msgRef.current.style.opacity < 1 ? msgRef.current.style.opacity = 1 : msgRef.current.style.opacity = 0
+    //         ,3000  )
+    //         setTimeout(console.log(d.getSeconds())
+    //             ,6000  )
+    //    }
+        
+
+    //     ay()
+
+    const interval = setTimeout(() => setMsg(d.getSeconds()), 1000); 
+    
+     },[d]) 
+
+
+     useEffect(() => {
+         d.getSeconds()%5 === 0 && console.log('ay')
+     })
+
+    const msgRef = useRef()  
+    return (
     <div
       style={{
         width: "100%",
@@ -12,7 +48,13 @@ export const Footer = ({ transpose, setTranspose }) => {
         justifyContent: "space-evenly",
       }}
     >
-      <div
+        <div style={{
+            display: 'block'
+        }}>
+<div>
+    <NoteLength />
+</div>
+        <div
         style={{
           margin: "0 20px 0 0px",
           display: "flex",
@@ -25,7 +67,7 @@ export const Footer = ({ transpose, setTranspose }) => {
         <span style={{ margin: "0 4px" }}>{transpose && transpose > 0 ? `+${transpose/100}` : `${transpose/100}`}</span>
         <div>
           {" "}
-            {['-', '+'].map((x,i) =>       <span key={i}
+            {['-', '+'].map((x,i) =>       <span key={i} ref={i < 1 ? ref0 : ref1}
             onClick={() => setTranspose(x === '+' ? transpose + 100 : transpose - 100)}
             style={{ margin: "0 4px", fontSize: "2em", cursor: 'pointer' }}
           >
@@ -33,6 +75,8 @@ export const Footer = ({ transpose, setTranspose }) => {
           </span>)}
         </div>
       </div>
+        </div>
+      
       <div>
         {" "}
         <h3 style={{ color: "#5FACD7" }}>Chord Finder</h3>
@@ -49,8 +93,8 @@ export const Footer = ({ transpose, setTranspose }) => {
         >
           developed by Rasha Rahman
         </span>
-        <h3 style={{ color: "white", opacity: 0.3 }}>
-          choose different orbs and press 'SPACE' to hear them!
+        <h3 ref={msgRef} onClick={() => setMsg(msg)} style={{ color: "white", opacity: 0.3 ,transition: '300ms opacity ease-in-out'}}>
+         {msg}
         </h3>
       </div>
       <div>

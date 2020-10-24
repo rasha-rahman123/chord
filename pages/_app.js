@@ -15,6 +15,12 @@ function MyApp({ Component, pageProps }) {
   const [sounds, setSounds] = useState([]);
   const [prevSL, setPrevSL] = useState(sounds.length);
 
+
+  const transRef0 = useRef();
+  const transRef1 = useRef();
+
+  const [on, setOn] = useState();
+
   const [transpose, setTranspose] = useState(0);
 
   const [x, setX] = useState(-6);
@@ -28,6 +34,7 @@ function MyApp({ Component, pageProps }) {
   const [synth, setSynth] = useState(null);
   const [context, setContext] = useState(null);
 
+  const [currentKey, setKey] = useState();
   const now = Tone.now();
 
   const triggerSound = (id) =>
@@ -39,22 +46,78 @@ function MyApp({ Component, pageProps }) {
       setSynth(new Tone.PolySynth(Tone.Synth).toDestination()),
     []
   );
-  
+
   useEffect(() => {
     synth && synth.set({ detune: transpose });
-  },[transpose])
+  }, [transpose]);
   useEffect(() => {
-    document.onkeydown = onKeyDown 
-  })
+    document.onkeydown = onKeyDown;
+  });
 
   const onKeyDown = (e) => {
-    e = e || window.event 
-    switch(e.keyCode) {
+    e = e || window.event;
+    setKey(e.keyCode);
+    switch (e.keyCode) {
       case 32:
-        synth.triggerAttackRelease(sounds.map(x=>`${x}3`), 1);
+        synth.triggerAttackRelease(
+          sounds.map((x) => `${x}3`),
+          1
+        );
+        break;
+      case 13:
+        synth.triggerAttackRelease(
+          sounds.map((x) => `${x}3`),
+          1
+        );
+        break;
+      case 65:
+        setOn(0);
+        console.log(on);
+        break;
+      case 83:
+        setOn(1);
+        break;
+      case 68:
+        setOn(2);
+        break;
+      case 70:
+        setOn(3);
+        break;
+      case 71:
+        setOn(4);
+        break;
+      case 87:
+        setOn(10);
+        break;
+      case 69:
+        setOn(20);
+        break;
+      case 72:
+        setOn(5);
+        break;
+      case 84:
+        setOn(30);
+        break;
+      case 8:
+        setOn(-2);
+        break;
+      case 88: //x
+        transRef1.current.click();
+        break;
+      case 90: //z
+        transRef0.current.click();
+        break;
+      case 89:
+        setOn(40);
+        break;
+      case 85:
+        setOn(50);
+        break;
+      case 74:
+        setOn(6);
         break;
     }
-  }
+  };
   function idCheck(id) {
     switch (id) {
       case 0:
@@ -67,7 +130,6 @@ function MyApp({ Component, pageProps }) {
         return "Eb";
       case 2:
         return "E";
-
       case 3:
         return "F";
       case 30:
@@ -91,14 +153,15 @@ function MyApp({ Component, pageProps }) {
     active ? setMessage("thic") : setMessage(null);
   }, [active, setActive]);
 
-  const tagSound = (id) => {
+  const tagSound = (id, act) => {
     let d = [...sounds];
     setPrevSL(d.length);
-    d.includes(idCheck(id))
+    act && !(idCheck(id) !== currentKey)
+      ? (d = [])
+      : d.includes(idCheck(id))
       ? (d = d.filter((x) => x !== idCheck(id)))
       : d.push(`${idCheck(id)}`) && triggerSound(idCheck(id));
     setSounds(d);
-    console.log(sounds);
   };
   return (
     <div
@@ -189,8 +252,11 @@ function MyApp({ Component, pageProps }) {
             setActive={setActive}
             j={0}
             k={k}
+            on={on}
+            setOn={setOn}
             i={i}
             tagSound={tagSound}
+            sounds={sounds}
             triggerSound={triggerSound}
             position={[x + k, y, z]}
             {...pageProps}
@@ -204,16 +270,33 @@ function MyApp({ Component, pageProps }) {
             j={1}
             k={k}
             i={(i + 1) * 10}
+            on={on}
+            setOn={setOn}
+            sounds={sounds}
             tagSound={tagSound}
             triggerSound={triggerSound}
             position={[x + k, y + 1, z]}
             {...pageProps}
           />
         ))}
+        
       </Canvas>
-      <Footer transpose={transpose} setTranspose={setTranspose}/>
+      <Footer
+        
+        ref0={transRef0}
+        ref1={transRef1}
+        transpose={transpose}
+        setTranspose={setTranspose}
+      />
     </div>
   );
 }
 
 export default MyApp;
+
+
+function getRandom() {
+  var num = Math.floor(Math.random()*10) + 1;
+  num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+  return num;
+}
