@@ -7,6 +7,9 @@ import { detect } from "@tonaljs/chord-detect";
 
 import "../styles/globals.css";
 import { Footer } from "../component/footer";
+import { Star } from "../component/star";
+import { KeyShort } from "../component/keyShort";
+import { Help } from "../component/help";
 
 function MyApp({ Component, pageProps }) {
   const [use, setUse] = useState(null);
@@ -15,9 +18,14 @@ function MyApp({ Component, pageProps }) {
   const [sounds, setSounds] = useState([]);
   const [prevSL, setPrevSL] = useState(sounds.length);
 
+  const [toggleKeyboard, setToggleKeyboard] = useState(false);
+
+  const [range, setRange] = useState(4);
 
   const transRef0 = useRef();
   const transRef1 = useRef();
+
+  const [arr, setArr] = useState([]);
 
   const [on, setOn] = useState();
 
@@ -55,19 +63,20 @@ function MyApp({ Component, pageProps }) {
   });
 
   const onKeyDown = (e) => {
+    let noteL = 2 / (1 / range) / 8;
     e = e || window.event;
     setKey(e.keyCode);
     switch (e.keyCode) {
       case 32:
         synth.triggerAttackRelease(
           sounds.map((x) => `${x}3`),
-          1
+          noteL
         );
         break;
       case 13:
         synth.triggerAttackRelease(
           sounds.map((x) => `${x}3`),
-          1
+          noteL
         );
         break;
       case 65:
@@ -100,6 +109,7 @@ function MyApp({ Component, pageProps }) {
         break;
       case 8:
         setOn(-2);
+        setSounds([])
         break;
       case 88: //x
         transRef1.current.click();
@@ -112,6 +122,9 @@ function MyApp({ Component, pageProps }) {
         break;
       case 85:
         setOn(50);
+        break;
+      case 75:
+        setToggleKeyboard(!toggleKeyboard);
         break;
       case 74:
         setOn(6);
@@ -172,7 +185,7 @@ function MyApp({ Component, pageProps }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        color: detect(sounds).length > 0 ? "#6D78CC" : "#494A8D",
+        color: detect(sounds).length > 0 ? "#6D78CC" : "#6D78CC",
         flexDirection: "column",
       }}
     >
@@ -189,30 +202,42 @@ function MyApp({ Component, pageProps }) {
           <h1>{message}</h1>
         ) : (
           <>
-            <h4>
+            <span
+              style={{
+                fontSize: "0.5em",
+                lineHeight: "50%",
+              }}
+            >
+              {sounds.length < 1
+                ? "(zero orbs selected)"
+                : "selected notes & chords:"}
+            </span>
+            <h4
+              style={{
+                margin: "auto auto",
+              }}
+            >
               {sounds.map((x, i) => (
-                <span key={i} style={{ margin: "0 4px" }}>
+                <span key={i} style={{ margin: "0px 4px" }}>
                   {x}
                 </span>
               ))}
             </h4>
             <h6
               style={{
-                marginTop: -20,
-                marginBottom: -20,
+                marginTop: 20,
+                marginBottom: -40,
                 fontWeight: "bolder",
                 textDecoration: "underline",
-                color: "#5FACD7",
+                color: "#040C35",
               }}
-            >
-              {detect(sounds).length > 0 && "chords"}
-            </h6>
+            ></h6>
             <div
               style={{
                 display: "flex",
                 width: "100%",
                 justifyContent: "space-evenly",
-                color: "#5FACD7",
+                color: "#040C35",
               }}
             >
               {detect(sounds).map((x, i) => (
@@ -221,6 +246,7 @@ function MyApp({ Component, pageProps }) {
                     display: "inline",
                     fontSize: "1rem",
                     textAlign: "center",
+                    fontWeight: "600",
                     padding: 20,
 
                     display: "flex",
@@ -235,6 +261,11 @@ function MyApp({ Component, pageProps }) {
           </>
         )}
       </div>
+      {toggleKeyboard && (
+        <KeyShort togKey={toggleKeyboard} setKey={setToggleKeyboard} />
+        
+      )}
+      <Help />
       <Canvas
         camera={{ position: [0, 10, 30], fov: 15, near: 0.1, far: 1000, z: 5 }}
         style={{
@@ -279,14 +310,15 @@ function MyApp({ Component, pageProps }) {
             {...pageProps}
           />
         ))}
-        
       </Canvas>
+
       <Footer
-        
         ref0={transRef0}
         ref1={transRef1}
         transpose={transpose}
         setTranspose={setTranspose}
+        range={range}
+        setRange={setRange}
       />
     </div>
   );
@@ -294,9 +326,10 @@ function MyApp({ Component, pageProps }) {
 
 export default MyApp;
 
-
 function getRandom() {
-  var num = Math.floor(Math.random()*10) + 1;
-  num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+  var num = Math.floor(Math.random() * 10) + 1;
+  num *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
   return num;
 }
+
+function generateStars() {}
