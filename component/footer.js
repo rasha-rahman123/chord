@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useFrame } from "react-three-fiber";
 import { NoteLength } from "./noteLength";
-export const Footer = ({ transpose, ref0, ref1, setTranspose, range, setRange }) => {
+import { VolumeSlider } from "./volumeSlider";
+
+export const Footer = ({ transpose, ref0, ref1, setTranspose, range, setRange, vr, sVr }) => {
   const [msg, setMsg] = useState(
     `choose different orbs and press 'SPACE' to hear them!`
   );
@@ -45,10 +47,15 @@ export const Footer = ({ transpose, ref0, ref1, setTranspose, range, setRange })
       <div
         style={{
           width: "25%",
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center'
         }}
       >
         <div>
           <NoteLength range={range} setRange={setRange} />
+          <VolumeSlider range={vr} setRange={sVr} />
         </div>
         <div
           style={{
@@ -118,9 +125,9 @@ export const Footer = ({ transpose, ref0, ref1, setTranspose, range, setRange })
             ? "tap an orb (or use keyboard) & then hit enter/space to hear it!"
             : msg > 29
             ? msg < 45
-              ? "soon you will be able to store and save chord progressions!!"
+              ? "drag suggested chords to the top left and make progressions!!"
               : "press 'K' for more keyboard shortcuts!"
-            : "share your progressions that you find!"}
+            : "share your progressions that you store!!!"}
         </h3>
       </div>
       <div

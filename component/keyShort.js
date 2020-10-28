@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { Box } from "rebass";
 
 export const KeyShort = ({togKey, setKey}) => {
   const noteArr = [
@@ -17,8 +18,8 @@ export const KeyShort = ({togKey, setKey}) => {
   ];
 
   const utilArr = [
-    { key: "SPACEBAR", tag: `'Play Notes'` },
-    { key: "ENTER", tag: `'Play Notes'` },
+    { key: "SPACEBAR", tag: `'Play Notes (0+ oct)'` },
+    { key: "ENTER", tag: `'Play Notes (1+ oct)'` },
     { key: "BACKSPACE", tag: `'Reset Notes'` },
     { key: "Z", tag: `'Transpose 1 Semitone Down'` },
     { key: "X", tag: `'Transpose 1 Semitone Up'` },
@@ -42,7 +43,7 @@ export const KeyShort = ({togKey, setKey}) => {
         zIndex: '1'
       }}
     >
-        <div ref={ref} onClick={() => setKey(false)} style={{
+        <Box ref={ref} onClick={() => setKey(false)} sx={{
             cursor: 'pointer',
             marginRight: 20,
             marginBotton: 30,
@@ -56,10 +57,15 @@ export const KeyShort = ({togKey, setKey}) => {
             backgroundColor: 'rgba(255,255,255,0.8)',
             borderRadius: '16px',
             transform: 'scale(0.8)',
-            boxShadow: '2px 2px 30px #181D45'
+            boxShadow: '2px 2px 30px #181D45',
+            fontWeight: 800,
+            transition: 'transform 200ms ease-in-out',
+            ":hover": {
+              transform: 'scale(1)'
+            }
         }}>
            X
-        </div>
+        </Box>
    <div>
    <h4>Notes:</h4>
       <ul>

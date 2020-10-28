@@ -19,13 +19,8 @@ const Home =({ use, setUse, position, tagSound, i,triggerSound, j, k, ref, setOn
   let [x, y, z] = [...position];
   
   // Rotate mesh every frame, this is outside of React without overhead
-  useFrame(() => (reef.current.rotation.x = reef.current.rotation.y += (Math.random() * 10) / 1000));
+  useFrame(() => (reef.current.rotation.x = reef.current.rotation.y += (active ? ((Math.random() * 10) / 1000) * 4 : (Math.random() * 10) / 1000)));
 
-  useFrame(
-    () =>
-      reef.current.position.x < x + 1.5 &&
-      (reef.current.position.x = reef.current.position.x += 0.1)
-  );
 
 
 const reef = useUpdate((geo) => {
@@ -50,7 +45,7 @@ const reef = useUpdate((geo) => {
     <mesh
       // {...props}
       key={(Math.ceil(j+2)*(k+3) ) * 2}
-      position={[x, y, z]}
+      position={[x+1.5, y, z]}
 
       ref={reef}
       scale={active ? [0.50, 0.50, 0.50] : hovered ? [0.47, 0.47, 0.47] : [0.45, 0.45, 0.45]}
@@ -72,7 +67,7 @@ const reef = useUpdate((geo) => {
     >
       <icosahedronBufferGeometry />
 
-      <meshStandardMaterial color={(hovered ? "#2144B8" : active ? "#2144B8" : j > 0 ? ("#181D45") : (i%2===0 ? "#494A8D": "#6D78CC"))} />
+      <meshStandardMaterial color={(hovered ? "#6D78CC" : active ? "#6D78CC" : j > 0 ? ("#181D45") : (i%2===0 ? "#494A8D": "#42459A"))} />
     </mesh>
   );
 }
