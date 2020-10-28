@@ -1,20 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "react-three-fiber";
-import { Fog } from "three";
 import * as Tone from "tone";
 import { useRouter } from "next/router";
 import { detect } from "@tonaljs/chord-detect";
 import { Chord } from "@tonaljs/tonal";
 import {
   EffectComposer,
-  DepthOfField,
   Bloom,
-  Noise,
-  Vignette,
+  Noise
 } from "@react-three/postprocessing";
 import "../styles/globals.css";
 import { Footer } from "../component/footer";
-import { Star } from "../component/star";
 import { KeyShort } from "../component/keyShort";
 import { Help } from "../component/help";
 import { Box } from "rebass";
