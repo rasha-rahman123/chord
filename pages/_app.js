@@ -4,11 +4,7 @@ import * as Tone from "tone";
 import { useRouter } from "next/router";
 import { detect } from "@tonaljs/chord-detect";
 import { Chord } from "@tonaljs/tonal";
-import {
-  EffectComposer,
-  Bloom,
-  Noise
-} from "@react-three/postprocessing";
+
 import "../styles/globals.css";
 import { Footer } from "../component/footer";
 import { KeyShort } from "../component/keyShort";
@@ -653,15 +649,7 @@ function MyApp({ Component, pageProps }) {
               {...pageProps}
             />
           ))}
-          <EffectComposer>
-            <Bloom
-              luminanceThreshold={0}
-              luminanceSmoothing={0.75}
-              height={300}
-            />
-
-            <Noise opacity={0.02} />
-          </EffectComposer>
+         
         </Canvas>
       </Box>
       <Footer
